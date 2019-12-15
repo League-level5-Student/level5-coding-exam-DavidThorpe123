@@ -24,16 +24,52 @@ public class CodingExamB {
 		 *    into one large String. The string will also state the file name and
 		 *    the line number for where each TODO was found. 
 		*/
-		
-		return "";
+		String s = fileName + " ";
+		try {
+			BufferedReader br = new BufferedReader(new FileReader(fileName));
+			
+			String line = br.readLine();
+			int i = 0;
+			while(line != null){
+				i++;
+				if (line.contains("//TODO:")) {
+					s += line + " line number " + i;
+				}
+				System.out.println(line);
+				line = br.readLine();
+			}
+			
+			br.close();
+		} catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return s;
 	}
 	
 	public static void main(String[] args) {
 		String finalLogString = getLoggingInfo("src/Coding_Exam_B/classes/Camera.java");
-		finalLogString += getLoggingInfo("src/Coding_Exam_B/classes/RayTracedImageViewer.java");
-		finalLogString += getLoggingInfo("src/Coding_Exam_B/classes/RayTracer.java");
-		finalLogString += getLoggingInfo("src/Coding_Exam_B/classes/Vector3.java");
-		
+		finalLogString += "\n" + getLoggingInfo("src/Coding_Exam_B/classes/RayTracedImageViewer.java");
+		finalLogString += "\n" + getLoggingInfo("src/Coding_Exam_B/classes/RayTracer.java");
+		finalLogString += "\n" + getLoggingInfo("src/Coding_Exam_B/classes/Vector3.java");
+		try {
+			FileWriter fw = new FileWriter("src/Coding_Exam_B/classes/TODO_Log.txt");
+			
+			/*
+			NOTE: To append to a file that already exists, add true as a second parameter when calling the
+			      FileWriter constructor.
+			      (e.g. FileWriter fw = new FileWriter("src/_00_Intro_To_File_Input_and_Output/test2.txt", true);)
+			*/
+			
+			fw.write(finalLogString);
+				
+			fw.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		/*
 		 * 2. Write the finalLogString to a file called TODO_Log.txt. The file should match TODO_Log_example.txt. 
 		 */
